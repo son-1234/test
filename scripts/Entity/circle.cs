@@ -20,6 +20,10 @@ public class circle : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        // 자신의 콜라이더 가져오기
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Ball"));
+        출처: https://wookeee.tistory.com/entry/Unity-유니티-IgnoreLayerCollision-특정-레이어-충돌-무시 [매일개발자:티스토리]
+        
         float randomScale= Random.Range(minS, maxS)/10f;
         transform.localScale = new Vector3(randomScale, randomScale, 1f);
         
