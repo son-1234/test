@@ -10,6 +10,8 @@ public class circle : MonoBehaviour
     [SerializeField] private float maxX = 10;
     [SerializeField] private float minY = -10;
     [SerializeField] private float maxY = 10;
+    
+    [SerializeField] private float bounce = 10; // 튕겨나가는 힘
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -33,5 +35,20 @@ public class circle : MonoBehaviour
         transform.position = new Vector2(RandomX, RandomY);
         return RandomX;
     }
-}
+
+    public void IsCollision(Collision2D co)
+    {
+        Debug.Log("Collision with: " + co.gameObject.name + ", layer: " + LayerMask.LayerToName(co.gameObject.layer));
+        if (co.gameObject.layer == LayerMask.NameToLayer("ground"))
+        {
+            Vector2 normal = co.contacts[0].normal;
+            
+            Vector2 linearVelocity = rb.linearVelocity;
+            
+            Vector2 reflection = Vector2.Reflect(linearVelocity, normal);
+
+            rb.linearVelocity = reflection.normalized * bounce;
+        }
+    }
     
+}
